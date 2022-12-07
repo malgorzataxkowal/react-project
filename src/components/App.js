@@ -4,7 +4,7 @@ import HomePage from "./home/HomePage";
 import AboutPage from "./about/AboutPage";
 import Header from "./common/Header";
 import PageNotFound from "./PageNotFound";
-import ShoesList from "./courses/ShoesList";
+import ShoesList from "./shoes/ShoesList";
 
 function App() {
   return (
