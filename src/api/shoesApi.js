@@ -15,7 +15,7 @@ export function saveShoe(shoe) {
     .catch(handleError);
 }
 
-export function deleteCourse(shoeId) {
+export function deleteShoe(shoeId) {
   return fetch(baseUrl + shoeId, { method: "DELETE" })
     .then(handleResponse)
     .catch(handleError);

@@ -7,12 +7,22 @@ function createShoesSuccess(shoe) {
 function updateShoesSuccess(shoe) {
   return { type: types.UPDATE_SHOE_SUCCESS, shoe };
 }
-function deleteShoe(shoeId) {
+function deleteShoeSuccess(shoeId) {
   return { type: types.DELETE_SHOE, shoeId };
 }
 
 function loadShoesSuccess(shoes) {
   return { type: types.LOAD_SHOES_SUCCESS, shoes };
+}
+function deleteShoeThunk(shoeId) {
+  return async function (dispatch) {
+    return shoeAPi
+      .deleteShoe(shoeId)
+      .then(dispatch(deleteShoeSuccess(shoeId)))
+      .catch((error) => {
+        throw error;
+      });
+  };
 }
 
 function loadShoesThunk() {
@@ -42,4 +52,4 @@ function saveShoesThunk(shoe) {
   };
 }
 
-export { saveShoesThunk, deleteShoe, loadShoesThunk, loadShoesSuccess };
+export { saveShoesThunk, deleteShoeThunk, loadShoesThunk, loadShoesSuccess };

@@ -15,7 +15,7 @@ export default function shoeReducer(state = [], action) {
       return action.shoes;
 
     case types.DELETE_SHOE:
-      return state.filter((shoe) => shoe.title != action.shoeId);
+      return state.filter((shoe) => shoe.id != action.shoeId);
 
     default:
       return state;

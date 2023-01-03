@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import ShoesList from "./ShoesList";
 import { Redirect } from "react-router-dom";
 
-import { deleteShoe, loadShoesThunk } from "../../redux/action/shoesAction";
+import {
+  deleteShoeThunk,
+  loadShoesThunk,
+} from "../../redux/action/shoesAction";
 import { loadAuthorsThunk } from "../../redux/action/authorsAction";
 
 function ShoesPage() {
@@ -33,7 +36,7 @@ function ShoesPage() {
     event.preventDefault();
     const shoeId =
       event.target.parentElement.parentElement.getAttribute("data_id");
-    dispatch(deleteShoe(shoeId));
+    dispatch(deleteShoeThunk(shoeId));
   }
   function handleAddShoe() {
     setRedirection(true);
