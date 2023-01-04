@@ -6,6 +6,7 @@ import Spinner from "../common/Spinner";
 import { loadShoesThunk, saveShoesThunk } from "../../redux/action/shoesAction";
 import { loadAuthorsThunk } from "../../redux/action/authorsAction";
 import { useParams, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function ManageShoe() {
   const listOfShoes = useSelector((state) => state.shoes);
@@ -46,6 +47,7 @@ function ManageShoe() {
     event.preventDefault();
     setSaving(true);
     dispatch(saveShoesThunk(shoe)).then(() => {
+      toast.success("Successfully saved");
       history.push("/shoes");
     });
   }

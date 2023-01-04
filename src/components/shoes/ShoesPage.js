@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ShoesList from "./ShoesList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
+import { toast } from "react-toastify";
 
 import {
   deleteShoeThunk,
@@ -34,7 +35,9 @@ function ShoesPage() {
     event.preventDefault();
     const shoeId =
       event.target.parentElement.parentElement.getAttribute("data_id");
-    dispatch(deleteShoeThunk(shoeId));
+    dispatch(deleteShoeThunk(shoeId)).then(() =>
+      toast.success("Successfully removed")
+    );
   }
   function handleAddShoe() {
     setRedirection(true);
