@@ -3,9 +3,19 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ShoesList({ shoesList, handleRemove }) {
+export default function ShoesList({
+  shoesList,
+  handleRemove,
+  errors = {},
+  deleting,
+}) {
   return (
     <div>
+      {errors.onDelete && (
+        <div className="alert alert-danger" role="alert">
+          {errors.onDelete}
+        </div>
+      )}
       <table className="table">
         <thead className="thead-dark">
           <tr>
@@ -23,7 +33,11 @@ export default function ShoesList({ shoesList, handleRemove }) {
                 <Link to={`/shoe/${shoe.id}`}>{shoe.title}</Link>
               </td>
               <td>
-                <button id="removeBtn" onClick={(event) => handleRemove(event)}>
+                <button
+                  disabled={deleting}
+                  id="removeBtn"
+                  onClick={(event) => handleRemove(event)}
+                >
                   REMOVE
                 </button>
               </td>
@@ -37,4 +51,6 @@ export default function ShoesList({ shoesList, handleRemove }) {
 ShoesList.propTypes = {
   shoesList: PropTypes.array.isRequired,
   handleRemove: PropTypes.func.isRequired,
+  errors: PropTypes.object,
+  deleting: PropTypes.bool.isRequired,
 };

@@ -1,6 +1,6 @@
 import * as shoeAPi from "../../api/shoesApi";
 import * as types from "./actionTypes";
-import { beginApiCall } from "./apiCallsAction";
+import { beginApiCall, errorApiCall } from "./apiCallsAction";
 
 function createShoesSuccess(shoe) {
   return { type: types.CREAT_SHOE_SUCCESS, shoe };
@@ -20,8 +20,9 @@ function deleteShoeThunk(shoeId) {
     dispatch(beginApiCall());
     return shoeAPi
       .deleteShoe(shoeId)
-      .then(dispatch(deleteShoeSuccess(shoeId)))
+      .then(() => dispatch(deleteShoeSuccess(shoeId)))
       .catch((error) => {
+        dispatch(errorApiCall());
         throw error;
       });
   };
@@ -36,6 +37,7 @@ function loadShoesThunk() {
         dispatch(loadShoesSuccess(shoes));
       })
       .catch((error) => {
+        dispatch(errorApiCall());
         throw error;
       });
   };
@@ -51,6 +53,7 @@ function saveShoesThunk(shoe) {
           : dispatch(createShoesSuccess(response));
       })
       .catch((error) => {
+        dispatch(errorApiCall());
         throw error;
       });
   };

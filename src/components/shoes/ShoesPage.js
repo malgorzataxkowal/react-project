@@ -14,9 +14,10 @@ import { loadAuthorsThunk } from "../../redux/action/authorsAction";
 function ShoesPage() {
   const listOfShoes = useSelector((state) => state.shoes);
   const listOfAuthors = useSelector((state) => state.authors);
-  const callsInprogress = useSelector((state) => state.apiCalls);
   const dispatch = useDispatch();
   const [redirection, setRedirection] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (listOfAuthors.length === 0) {
@@ -35,9 +36,16 @@ function ShoesPage() {
     event.preventDefault();
     const shoeId =
       event.target.parentElement.parentElement.getAttribute("data_id");
-    dispatch(deleteShoeThunk(shoeId)).then(() =>
-      toast.success("Successfully removed")
-    );
+    setDeleting(true);
+    dispatch(deleteShoeThunk(shoeId))
+      .then(() => {
+        setDeleting(false);
+        toast.success("Successfully removed");
+      })
+      .catch((error) => {
+        setDeleting(false);
+        setErrors({ onDelete: error.message });
+      });
   }
   function handleAddShoe() {
     setRedirection(true);
@@ -49,10 +57,15 @@ function ShoesPage() {
       <button type="button" className="btn btn-primary" onClick={handleAddShoe}>
         Add shoe
       </button>
-      {callsInprogress > 0 ? (
+      {listOfShoes.length === 0 && listOfAuthors.length === 0 ? (
         <Spinner />
       ) : (
-        <ShoesList shoesList={listOfShoes} handleRemove={handleRemove} />
+        <ShoesList
+          shoesList={listOfShoes}
+          handleRemove={handleRemove}
+          errors={errors}
+          deleting={deleting}
+        />
       )}
     </>
   );

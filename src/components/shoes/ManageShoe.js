@@ -21,6 +21,7 @@ function ManageShoe() {
   const [shoe, setShoe] = useState(initialShoe);
   const history = useHistory();
   const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (listOfAuthors.length === 0) {
@@ -46,10 +47,15 @@ function ManageShoe() {
   function handleSubmit(event) {
     event.preventDefault();
     setSaving(true);
-    dispatch(saveShoesThunk(shoe)).then(() => {
-      toast.success("Successfully saved");
-      history.push("/shoes");
-    });
+    dispatch(saveShoesThunk(shoe))
+      .then(() => {
+        toast.success("Successfully saved");
+        history.push("/shoes");
+      })
+      .catch((error) => {
+        setSaving(false);
+        setErrors({ onSave: error.message });
+      });
   }
 
   return (
@@ -63,6 +69,7 @@ function ManageShoe() {
           onChange={handleChange}
           onSave={handleSubmit}
           saving={saving}
+          errors={errors}
         />
       )}
     </>
