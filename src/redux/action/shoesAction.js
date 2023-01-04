@@ -1,5 +1,6 @@
 import * as shoeAPi from "../../api/shoesApi";
 import * as types from "./actionTypes";
+import { beginApiCall } from "./apiCallsAction";
 
 function createShoesSuccess(shoe) {
   return { type: types.CREAT_SHOE_SUCCESS, shoe };
@@ -8,7 +9,7 @@ function updateShoesSuccess(shoe) {
   return { type: types.UPDATE_SHOE_SUCCESS, shoe };
 }
 function deleteShoeSuccess(shoeId) {
-  return { type: types.DELETE_SHOE, shoeId };
+  return { type: types.DELETE_SHOE_SUCCESS, shoeId };
 }
 
 function loadShoesSuccess(shoes) {
@@ -16,6 +17,7 @@ function loadShoesSuccess(shoes) {
 }
 function deleteShoeThunk(shoeId) {
   return async function (dispatch) {
+    dispatch(beginApiCall());
     return shoeAPi
       .deleteShoe(shoeId)
       .then(dispatch(deleteShoeSuccess(shoeId)))
@@ -27,6 +29,7 @@ function deleteShoeThunk(shoeId) {
 
 function loadShoesThunk() {
   return async function (dispatch) {
+    dispatch(beginApiCall());
     return shoeAPi
       .getShoes()
       .then((shoes) => {
@@ -39,6 +42,7 @@ function loadShoesThunk() {
 }
 function saveShoesThunk(shoe) {
   return async function (dispatch) {
+    dispatch(beginApiCall());
     return shoeAPi
       .saveShoe(shoe)
       .then((response) => {

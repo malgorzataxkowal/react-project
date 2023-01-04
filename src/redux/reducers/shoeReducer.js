@@ -1,7 +1,7 @@
 import * as types from "../action/actionTypes";
 import { initialState } from "./initialState";
 
-export default function shoeReducer(state = [], action) {
+export default function shoeReducer(state = initialState.shoes, action) {
   switch (action.type) {
     case types.CREAT_SHOE_SUCCESS:
       return [...state, action.shoe];
@@ -14,7 +14,7 @@ export default function shoeReducer(state = [], action) {
     case types.LOAD_SHOES_SUCCESS:
       return action.shoes;
 
-    case types.DELETE_SHOE:
+    case types.DELETE_SHOE_SUCCESS:
       return state.filter((shoe) => shoe.id != action.shoeId);
 
     default:

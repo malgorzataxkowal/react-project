@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ShoeForm from "./ShoeForm";
+import Spinner from "../common/Spinner";
 
 import { loadShoesThunk, saveShoesThunk } from "../../redux/action/shoesAction";
 import { loadAuthorsThunk } from "../../redux/action/authorsAction";
@@ -18,6 +19,7 @@ function ManageShoe() {
   };
   const [shoe, setShoe] = useState(initialShoe);
   const history = useHistory();
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (listOfAuthors.length === 0) {
@@ -42,7 +44,7 @@ function ManageShoe() {
   }
   function handleSubmit(event) {
     event.preventDefault();
-    debugger;
+    setSaving(true);
     dispatch(saveShoesThunk(shoe)).then(() => {
       history.push("/shoes");
     });
@@ -50,12 +52,17 @@ function ManageShoe() {
 
   return (
     <>
-      <ShoeForm
-        shoe={shoe}
-        authors={listOfAuthors}
-        onChange={handleChange}
-        onSave={handleSubmit}
-      />
+      {listOfAuthors.length === 0 || listOfShoes.length === 0 ? ( //TO DO: fix the problem of missing data in storage and desire of adding the first item
+        <Spinner />
+      ) : (
+        <ShoeForm
+          shoe={shoe}
+          authors={listOfAuthors}
+          onChange={handleChange}
+          onSave={handleSubmit}
+          saving={saving}
+        />
+      )}
     </>
   );
 }
