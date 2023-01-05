@@ -40,12 +40,23 @@ function ManageShoe() {
     setShoe(initialShoe);
   }, [listOfShoes]);
 
+  function isShoeValid() {
+    const { title, authorId, category } = shoe;
+    const errors = {};
+    if (!title) errors.title = "Title is required";
+    if (!authorId) errors.author = "AuthorId is required";
+    if (!category) errors.category = "Category is required";
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  }
+
   function handleChange(event) {
     const { name, value } = event.target;
     setShoe((prev) => ({ ...prev, [name]: value }));
   }
   function handleSubmit(event) {
     event.preventDefault();
+    if (!isShoeValid()) return;
     setSaving(true);
     dispatch(saveShoesThunk(shoe))
       .then(() => {
