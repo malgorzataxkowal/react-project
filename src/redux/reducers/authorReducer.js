@@ -1,12 +1,20 @@
-import * as types from "../action/actionTypes";
+import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
+import { getAuthors } from "../../api/authorApi";
 
-export default function authorReducer(state = initialState.authors, action) {
-  switch (action.type) {
-    case types.LOAD_AUTHORS_SUCCESS: {
-      return action.authors;
-    }
-    default:
-      return state;
+const loadAuthorsThunk = createAsyncThunk(
+  "authors/loadAuthorsThunk",
+  async () => {
+    return getAuthors().catch((error) => {
+      throw error;
+    });
   }
-}
+);
+
+const authorReducer = createReducer(initialState.authors, (builder) => {
+  builder.addCase(loadAuthorsThunk.fulfilled, (state, action) => {
+    return action.payload;
+  });
+});
+
+export { loadAuthorsThunk, authorReducer };

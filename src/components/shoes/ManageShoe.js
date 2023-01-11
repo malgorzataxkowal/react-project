@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ShoeForm from "./ShoeForm";
 import Spinner from "../common/Spinner";
 
-import { loadShoesThunk, saveShoesThunk } from "../../redux/action/shoesAction";
-import { loadAuthorsThunk } from "../../redux/action/authorsAction";
+import {
+  loadShoesThunk,
+  saveShoesThunk,
+} from "../../redux/reducers/shoeReducer";
+import { loadAuthorsThunk } from "../../redux/reducers/authorReducer";
 import { useParams, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 

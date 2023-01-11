@@ -6,10 +6,10 @@ import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 
 import {
-  deleteShoeThunk,
   loadShoesThunk,
-} from "../../redux/action/shoesAction";
-import { loadAuthorsThunk } from "../../redux/action/authorsAction";
+  deleteShoeThunk,
+} from "../../redux/reducers/shoeReducer";
+import { loadAuthorsThunk } from "../../redux/reducers/authorReducer";
 
 function ShoesPage() {
   const listOfShoes = useSelector((state) => state.shoes);
