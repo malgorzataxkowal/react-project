@@ -9,18 +9,20 @@
 
 ### Production Dependencies
 
-| **Dependency**   | **Use**                         |
-| ---------------- | ------------------------------- |
-| bootstrap        | CSS Framework                   |
-| react            | React library                   |
-| react-dom        | React library for DOM rendering |
-| react-router-dom | React library for routing       |
-
+| **Dependency**   | **Use**                           |
+| ---------------- | -------------------------------   |
+| @reduxjs/toolkit | Utilities to simplyfy using Redux |
+| bootstrap        | CSS Framework                     |
+| react            | React library                     |
+| react-dom        | React library for DOM rendering   |
+| react-router-dom | React library for routing         |
+ 
 ### Development Dependencies
 
 | **Dependency**                     | **Use**                                                          |
 | ---------------------------------- | ---------------------------------------------------------------- |
 | @babel/core                        | Transpiles modern JavaScript so it runs cross-browser            |
+| @reduxjs/toolkit                   | Utilities to simplyfy using Redux                                |
 | @testing-library/react             | Test React components                                            |
 | @wojtekmaj/enzyme-adapter-react-17 | Configure Enzyme to work with React 17                           |
 | babel-eslint                       | Lint modern JavaScript via ESLint                                |
