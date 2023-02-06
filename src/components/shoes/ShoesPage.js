@@ -1,51 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import ShoesList from "./ShoesList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-
 import {
-  loadShoesThunk,
-  deleteShoeThunk,
-} from "../../redux/reducers/shoeReducer";
-import { loadAuthorsThunk } from "../../redux/reducers/authorReducer";
+  useLoadShoesQuery,
+  useDeleteShoeMutation,
+} from "../../features/shoes/shoesSlice";
 
 function ShoesPage() {
-  const listOfShoes = useSelector((state) => state.shoes);
-  const listOfAuthors = useSelector((state) => state.authors);
-  const dispatch = useDispatch();
+  const { data: listOfShoes = [], isLoading: loadingShoes } =
+    useLoadShoesQuery();
   const [redirection, setRedirection] = useState(false);
   const [errors, setErrors] = useState({});
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    if (listOfAuthors.length === 0) {
-      dispatch(loadAuthorsThunk()).catch((e) => {
-        throw e;
-      });
-    }
-    if (listOfShoes.length === 0) {
-      dispatch(loadShoesThunk()).catch((e) => {
-        throw e;
-      });
-    }
-  }, []);
+  const [deleteShoeById, { isLoading: deleting }] = useDeleteShoeMutation();
 
   function handleRemove(event) {
     event.preventDefault();
     const shoeId =
       event.target.parentElement.parentElement.getAttribute("data_id");
-    setDeleting(true);
-    dispatch(deleteShoeThunk(shoeId))
-      .then(() => {
-        setDeleting(false);
-        toast.success("Successfully removed");
-      })
-      .catch((error) => {
-        setDeleting(false);
-        setErrors({ onDelete: error.message });
-      });
+    deleteShoeById(shoeId)
+      .unwrap()
+      .then(toast.success("Successfully removed"))
+      .catch((error) => setErrors({ onDelete: error }));
   }
   function handleAddShoe() {
     setRedirection(true);
@@ -57,7 +34,7 @@ function ShoesPage() {
       <button type="button" className="btn btn-primary" onClick={handleAddShoe}>
         Add shoe
       </button>
-      {listOfShoes.length === 0 && listOfAuthors.length === 0 ? (
+      {loadingShoes ? (
         <Spinner />
       ) : (
         <ShoesList

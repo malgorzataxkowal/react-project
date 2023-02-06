@@ -1,43 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import ShoeForm from "./ShoeForm";
 import Spinner from "../common/Spinner";
-
 import {
-  loadShoesThunk,
-  saveShoesThunk,
-} from "../../redux/reducers/shoeReducer";
-import { loadAuthorsThunk } from "../../redux/reducers/authorReducer";
+  useLoadShoesQuery,
+  useSaveShoeMutation,
+} from "../../features/shoes/shoesSlice";
+import { useLoadAuthorsQuery } from "../../features/authors/authorSlice";
 import { useParams, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function ManageShoe() {
-  const listOfShoes = useSelector((state) => state.shoes);
-  const listOfAuthors = useSelector((state) => state.authors);
-  const dispatch = useDispatch();
+const ManageShoe = () => {
+  const { data: listOfShoes = [], isLoading: loadingShoes } =
+    useLoadShoesQuery();
+  const { data: listOfAuthors = [], isLoading: loadingAuthors } =
+    useLoadAuthorsQuery();
   const { id } = useParams();
-  const initialShoe = listOfShoes.find((shoe) => shoe.id.toString() === id) || {
+  const initialShoe = listOfShoes?.find(
+    (shoe) => shoe.id.toString() === id
+  ) || {
     id: null,
     title: "",
     category: "",
   };
   const [shoe, setShoe] = useState(initialShoe);
   const history = useHistory();
-  const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    if (listOfAuthors.length === 0) {
-      dispatch(loadAuthorsThunk()).catch((e) => {
-        throw e;
-      });
-    }
-    if (listOfShoes.length === 0) {
-      dispatch(loadShoesThunk()).catch((e) => {
-        throw e;
-      });
-    }
-  }, []);
+  const [saveShoe, { isLoading: saving }] = useSaveShoeMutation();
 
   useEffect(() => {
     setShoe(initialShoe);
@@ -57,24 +45,21 @@ function ManageShoe() {
     const { name, value } = event.target;
     setShoe((prev) => ({ ...prev, [name]: value }));
   }
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     if (!isShoeValid()) return;
-    setSaving(true);
-    dispatch(saveShoesThunk(shoe))
-      .then(() => {
-        toast.success("Successfully saved");
-        history.push("/shoes");
-      })
-      .catch((error) => {
-        setSaving(false);
-        setErrors({ onSave: error.message });
-      });
+    saveShoe(shoe)
+      .unwrap()
+      .then(toast.success("Shoe saved successfully"))
+      .catch((error) =>
+        console.log("saveShoes() rejectet with error: ", error)
+      );
+    history.push("/shoes");
   }
 
   return (
     <>
-      {listOfAuthors.length === 0 || listOfShoes.length === 0 ? ( //TO DO: fix the problem of missing data in storage and desire of adding the first item
+      {loadingAuthors || loadingShoes ? (
         <Spinner />
       ) : (
         <ShoeForm
@@ -88,6 +73,6 @@ function ManageShoe() {
       )}
     </>
   );
-}
+};
 
 export default ManageShoe;

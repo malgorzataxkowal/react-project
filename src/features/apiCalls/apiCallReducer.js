@@ -1,4 +1,4 @@
-import { initialState } from "./initialState";
+import { initialState } from "../initialState";
 import { createReducer } from "@reduxjs/toolkit";
 
 const apiCallReducer = createReducer(initialState.apiCalls, (builder) => {
