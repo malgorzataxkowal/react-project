@@ -7,6 +7,7 @@ import PageNotFound from "./PageNotFound";
 import ShoesPage from "./shoes/ShoesPage";
 import ManageShoe from "./shoes/ManageShoe";
 import { ToastContainer } from "react-toastify";
+import Authors from "./authors/Authors";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/shoe/:id" component={ManageShoe} />
         <Route path="/shoe" component={ManageShoe} />
         <Route path="/shoes" component={ShoesPage} />
+        <Route path="/authors" component={Authors} />
         <Route component={PageNotFound} />
       </Switch>
       <ToastContainer position="top-right" autoClose="3000" />

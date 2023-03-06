@@ -12,12 +12,14 @@ import { toast } from "react-toastify";
 const ManageShoe = () => {
   const { data: listOfShoes = [], isLoading: loadingShoes } =
     useLoadShoesQuery();
-  const { data: listOfAuthors = [], isLoading: loadingAuthors } =
+  const { data: listOfAuthors, isLoading: loadingAuthors } =
     useLoadAuthorsQuery();
   const { id } = useParams();
-  const initialShoe = listOfShoes?.find(
-    (shoe) => shoe.id.toString() === id
-  ) || {
+  const initialShoeID = listOfShoes.ids?.find(
+    (id) => id === Number.parseInt(id)
+  );
+  const initialShoe = (!loadingShoes &&
+    listOfShoes.entities[initialShoeID]) || {
     id: null,
     title: "",
     category: "",
@@ -29,7 +31,7 @@ const ManageShoe = () => {
 
   useEffect(() => {
     setShoe(initialShoe);
-  }, [listOfShoes]);
+  }, [listOfShoes.ids]);
 
   function isShoeValid() {
     const { title, authorId, category } = shoe;

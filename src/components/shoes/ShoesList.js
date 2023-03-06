@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ShoesList({
+export const ShoesList = React.memo(function ShoesList({
   shoesList,
   handleRemove,
   errors = {},
@@ -25,12 +25,12 @@ export default function ShoesList({
           </tr>
         </thead>
         <tbody>
-          {shoesList.map((shoe, index) => (
-            <tr key={shoe.id} data_id={shoe.id}>
-              <th scope="row">{index}</th>
+          {shoesList.ids.map((id) => (
+            <tr key={id} data_id={id}>
+              <th scope="row">{id}</th>
 
               <td>
-                <Link to={`/shoe/${shoe.id}`}>{shoe.title}</Link>
+                <Link to={`/shoe/${id}`}>{shoesList.entities[id].title}</Link>
               </td>
               <td>
                 <button
@@ -47,9 +47,9 @@ export default function ShoesList({
       </table>
     </div>
   );
-}
+});
 ShoesList.propTypes = {
-  shoesList: PropTypes.array.isRequired,
+  shoesList: PropTypes.object.isRequired,
   handleRemove: PropTypes.func.isRequired,
   errors: PropTypes.object,
   deleting: PropTypes.bool.isRequired,

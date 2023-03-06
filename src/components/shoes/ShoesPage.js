@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import ShoesList from "./ShoesList";
+import React, { useState } from "react";
+import { ShoesList } from "./ShoesList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
@@ -9,8 +9,7 @@ import {
 } from "../../features/shoes/shoesSlice";
 
 function ShoesPage() {
-  const { data: listOfShoes = [], isLoading: loadingShoes } =
-    useLoadShoesQuery();
+  const { data: listOfShoes, isLoading: loadingShoes } = useLoadShoesQuery();
   const [redirection, setRedirection] = useState(false);
   const [errors, setErrors] = useState({});
   const [deleteShoeById, { isLoading: deleting }] = useDeleteShoeMutation();
