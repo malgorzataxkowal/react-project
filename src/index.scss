@@ -1,0 +1,25 @@
+$bodyFontColor:rgb(8, 25, 80);
+$visitedFontColor:rgb(0, 153, 255);
+
+nav{
+    a {
+        color: $bodyFontColor;
+        text-decoration: none;
+    }
+    a:hover{
+        background-color: antiquewhite;
+    }
+    a.active{
+        color: $visitedFontColor;
+    }
+}
+.listOfShoes{
+    h2{
+    color: $bodyFontColor;
+    }
+    button#addShoe{
+        position: absolute;
+        right:15px;
+
+    }
+}
