@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ShoesList } from "./ShoesList";
+import ShoesList from "./ShoesList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
@@ -9,7 +9,11 @@ import {
 } from "../../features/shoes/shoesSlice";
 
 function ShoesPage() {
-  const { data: listOfShoes, isLoading: loadingShoes } = useLoadShoesQuery();
+  const {
+    data: listOfShoes,
+    isLoading: loadingShoes,
+    isFetching: isRefetchingShoes,
+  } = useLoadShoesQuery();
   const [redirection, setRedirection] = useState(false);
   const [errors, setErrors] = useState({});
   const [deleteShoeById, { isLoading: deleting }] = useDeleteShoeMutation();
@@ -26,23 +30,21 @@ function ShoesPage() {
   function handleAddShoe() {
     setRedirection(true);
   }
+  if (redirection) return <Redirect to={"/shoe"} />;
+  if (loadingShoes) return <Spinner />;
   return (
     <>
-      {redirection && <Redirect to={"/shoe"} />}
       <h2>List of shoes</h2>
       <button type="button" className="btn btn-primary" onClick={handleAddShoe}>
         Add shoe
       </button>
-      {loadingShoes ? (
-        <Spinner />
-      ) : (
-        <ShoesList
-          shoesList={listOfShoes}
-          handleRemove={handleRemove}
-          errors={errors}
-          deleting={deleting}
-        />
-      )}
+      <ShoesList
+        shoesList={listOfShoes}
+        handleRemove={handleRemove}
+        errors={errors}
+        deleting={deleting}
+        isRefetchingShoes={isRefetchingShoes}
+      />
     </>
   );
 }

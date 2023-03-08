@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const ShoesList = React.memo(function ShoesList({
+const Shoes_List = ({
   shoesList,
   handleRemove,
   errors = {},
   deleting,
-}) {
+  isRefetchingShoes,
+}) => {
   return (
     <div>
       {errors.onDelete && (
@@ -36,7 +37,7 @@ export const ShoesList = React.memo(function ShoesList({
                 <button
                   disabled={deleting}
                   id="removeBtn"
-                  onClick={(event) => handleRemove(event)}
+                  onClick={handleRemove}
                 >
                   REMOVE
                 </button>
@@ -47,10 +48,22 @@ export const ShoesList = React.memo(function ShoesList({
       </table>
     </div>
   );
-});
-ShoesList.propTypes = {
+};
+
+const arePropsEqual = (prev, current) => {
+  return (
+    prev.isRefetchingShoes === current.isRefetchingShoes ||
+    prev.isRefetchingShoes === false
+  );
+};
+
+Shoes_List.propTypes = {
   shoesList: PropTypes.object.isRequired,
   handleRemove: PropTypes.func.isRequired,
   errors: PropTypes.object,
   deleting: PropTypes.bool.isRequired,
+  isRefetchingShoes: PropTypes.bool.isRequired,
 };
+
+const ShoesList = React.memo(Shoes_List, arePropsEqual);
+export default ShoesList;

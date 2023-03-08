@@ -20,14 +20,15 @@ export default function Authors() {
     selectShoesByAuthorID(state, selectedAuthor)
   );
   const { data: shoesForSelectShoesByAuthorID } = useLoadShoesQuery();
-
+  const currentSelectedAuthor = authorsList?.find(
+    (author) => author.id == selectedAuthor
+  );
   const handleDisplayAuthorsBooks = useCallback(
-    (event, id) => {
+    (event) => {
       event.preventDefault();
-      console.log("Author Id: " + id);
       const author =
         event.target.parentElement.parentElement.getAttribute("data_id");
-      author !== selectedAuthor && setSelectedAuthor(author), this;
+      author !== selectedAuthor && setSelectedAuthor(author);
     },
     [selectedAuthor]
   );
@@ -40,10 +41,10 @@ export default function Authors() {
           displayAuthorsBooks={handleDisplayAuthorsBooks}
         />
       )}
-      {authorsShoess.length > 0 &&
-        (selectedAuthor ? (
+      {selectedAuthor &&
+        (authorsShoess.length > 0 ? (
           <AuthorShoesList
-            author={selectedAuthor}
+            author={currentSelectedAuthor.name}
             authorShoes={authorsShoess}
           />
         ) : (

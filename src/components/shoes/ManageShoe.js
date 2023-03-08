@@ -14,9 +14,9 @@ const ManageShoe = () => {
     useLoadShoesQuery();
   const { data: listOfAuthors, isLoading: loadingAuthors } =
     useLoadAuthorsQuery();
-  const { id } = useParams();
+  const { idParam } = useParams();
   const initialShoeID = listOfShoes.ids?.find(
-    (id) => id === Number.parseInt(id)
+    (id) => id === Number.parseInt(idParam)
   );
   const initialShoe = (!loadingShoes &&
     listOfShoes.entities[initialShoeID]) || {

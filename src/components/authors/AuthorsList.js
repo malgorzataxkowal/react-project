@@ -1,10 +1,7 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 
-const AuthorsList = React.memo(function AuthorsList({
-  authorsList,
-  displayAuthorsBooks,
-}) {
+function Authors_List({ authorsList, displayAuthorsBooks }) {
   return (
     <div>
       <h2>List of authors: </h2>
@@ -26,9 +23,14 @@ const AuthorsList = React.memo(function AuthorsList({
       </table>
     </div>
   );
-});
+}
 
-AuthorsList.prototype = {
+function arePropsEqual(p1, p2) {
+  return p1.authorsList.length === p2.authorsList.length;
+}
+const AuthorsList = React.memo(Authors_List, arePropsEqual);
+
+Authors_List.prototype = {
   authorsList: PropTypes.array.isRequired,
 };
 export default AuthorsList;
