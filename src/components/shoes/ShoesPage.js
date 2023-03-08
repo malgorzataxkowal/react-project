@@ -9,11 +9,7 @@ import {
 } from "../../features/shoes/shoesSlice";
 
 function ShoesPage() {
-  const {
-    data: listOfShoes,
-    isLoading: loadingShoes,
-    isFetching: isRefetchingShoes,
-  } = useLoadShoesQuery();
+  const { data: listOfShoes, isLoading: loadingShoes } = useLoadShoesQuery();
   const [redirection, setRedirection] = useState(false);
   const [errors, setErrors] = useState({});
   const [deleteShoeById, { isLoading: deleting }] = useDeleteShoeMutation();
@@ -33,9 +29,14 @@ function ShoesPage() {
   if (redirection) return <Redirect to={"/shoe"} />;
   if (loadingShoes) return <Spinner />;
   return (
-    <>
+    <div className="listOfShoes">
       <h2>List of shoes</h2>
-      <button type="button" className="btn btn-primary" onClick={handleAddShoe}>
+      <button
+        type="button"
+        id="addShoe"
+        className="btn btn-primary"
+        onClick={handleAddShoe}
+      >
         Add shoe
       </button>
       <ShoesList
@@ -43,9 +44,8 @@ function ShoesPage() {
         handleRemove={handleRemove}
         errors={errors}
         deleting={deleting}
-        isRefetchingShoes={isRefetchingShoes}
       />
-    </>
+    </div>
   );
 }
 

@@ -3,13 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Shoes_List = ({
-  shoesList,
-  handleRemove,
-  errors = {},
-  deleting,
-  isRefetchingShoes,
-}) => {
+const ShoesList = ({ shoesList, handleRemove, errors = {}, deleting }) => {
   return (
     <div>
       {errors.onDelete && (
@@ -50,20 +44,10 @@ const Shoes_List = ({
   );
 };
 
-const arePropsEqual = (prev, current) => {
-  return (
-    prev.isRefetchingShoes === current.isRefetchingShoes ||
-    prev.isRefetchingShoes === false
-  );
-};
-
-Shoes_List.propTypes = {
+ShoesList.propTypes = {
   shoesList: PropTypes.object.isRequired,
   handleRemove: PropTypes.func.isRequired,
   errors: PropTypes.object,
   deleting: PropTypes.bool.isRequired,
-  isRefetchingShoes: PropTypes.bool.isRequired,
 };
-
-const ShoesList = React.memo(Shoes_List, arePropsEqual);
 export default ShoesList;
