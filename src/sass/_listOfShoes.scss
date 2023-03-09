@@ -1,0 +1,24 @@
+.listOfShoes{
+    @include border-radius;
+    h2{
+    color: $bodyFontColor;
+    padding: 0.5em 1em 0.5em 0.5em
+    }
+    button#addShoe{
+        position: absolute;
+        right:15px;
+
+    }
+    table{
+        button{
+        @include border-radius(5px,rgb(99, 151, 201) );
+        @include button-style;
+        }
+        button:hover{
+            background-color:rgba(10, 88, 255, 0.993) ;
+        }
+        a{
+            text-decoration: none;
+        }
+    } 
+}

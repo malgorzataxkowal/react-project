@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 
 function Authors_List({ authorsList, displayAuthorsBooks }) {
   return (
-    <div>
+    <div className="authorsList">
       <h2>List of authors: </h2>
       <table className="table">
         <thead className="thead-dark">

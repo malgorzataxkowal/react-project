@@ -1,0 +1,33 @@
+$headerTitles:(HOME #4fabe9 #b81111 ,SHOES #5283a3 #b13838 , AUTHORS  #2b6185  #b36262, ABOUT #093c5e #a58f8f);
+nav{
+    width: 100%; 
+    background-color: #7dbae2; 
+    overflow: auto; 
+    
+    a {
+        color: $bodyFontColor;
+        text-decoration: none;
+        float:left ;
+        text-align: center;
+        width: 25%; 
+        padding: 12px 0; 
+        transition: all 0.3s ease; 
+        font-size: 36px; 
+
+      &.active{
+       border: 2px solid rgb(255, 255, 255);
+       border-radius: 5px;
+       }
+       &:active{
+        box-shadow: 2px 2px 10px #fc894d;
+       }
+    }  
+}
+
+@each $title in $headerTitles{
+    .#{nth($title,1)}:hover 
+    {
+        background-color:#{nth($title,2)};
+        color:#{nth($title,3)};
+    }    
+}
